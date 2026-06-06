@@ -1,0 +1,13 @@
+﻿torch>=2.0.0
+transformers>=4.30.0
+librosa
+soundfile
+onnxruntime
+onnx
+mediapipe
+aiortc
+faster-whisper
+faiss-cpu
+sentence-transformers
+pyyaml
+pytest

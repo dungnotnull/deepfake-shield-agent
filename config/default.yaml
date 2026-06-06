@@ -1,0 +1,57 @@
+﻿# DeepFake Shield Agent - Global Configuration
+system:
+  device: "cpu" # Options: cpu, cuda, coreml, nnapi
+  log_level: "INFO"
+  debug_mode: false
+  temp_dir: "D:/tmp/shield_agent"
+
+latency_budgets:
+  audio_detection_ms: 150
+  video_detection_ms: 100
+  llm_scoring_ms: 500
+  total_alert_e2e_ms: 3000
+
+audio_pipeline:
+  sample_rate: 16000
+  window_size_sec: 2.0
+  overlap_sec: 0.512
+  models:
+    wav2vec2:
+      path: "models/audio/wav2vec2_onnx.onnx"
+      weight: 0.6
+    aasist3:
+      path: "models/audio/aasist3_onnx.onnx"
+      weight: 0.4
+  thresholds:
+    critical: 0.95
+    warn: 0.50
+
+video_pipeline:
+  resolution: [224, 224]
+  models:
+    cnn_vit:
+      path: "models/video/cnn_vit_onnx.onnx"
+      weight: 0.7
+  active_probing:
+    corneal_threshold: 0.85
+    gaze_consistency_window: 10 # frames
+  thresholds:
+    critical: 0.80
+    warn: 0.40
+
+llm_pipeline:
+  model: "qwen2.5:7b"
+  base_url: "http://localhost:11434"
+  temperature: 0.1
+  rag_enabled: true
+  faiss_index_path: "data/faiss.index"
+  thresholds:
+    critical: 0.75
+    warn: 0.40
+
+risk_fusion:
+  weights:
+    audio: 0.4
+    video: 0.4
+    text: 0.2
+  smoothing_window: 30 # seconds

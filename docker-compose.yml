@@ -1,0 +1,15 @@
+﻿version: '3.8'
+services:
+  shield-agent:
+    build: .
+    volumes:
+      - .:/app
+    network_mode: host
+  ollama:
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+volumes:
+  ollama_data:
